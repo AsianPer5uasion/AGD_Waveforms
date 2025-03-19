@@ -1,0 +1,5 @@
+archive
+test6
+.dist
+.venv
+__pycache__
