@@ -11,18 +11,34 @@ def currentFromPMOS(PMOS):
     return 0.0899*PMOS # Returns in amps
 
 def pre_pulse(time_domain = True):
+
+    '''
+    Returns the first pulse of the waveform.
+    '''
+
     out_arr = []
     if time_domain:
         t_c = START_TIME_OFFSET
         out_arr.append([0, t_c])
+
         t_c = t_c + TRANSITION_TIME
         out_arr.append([FIRST_PULSE_AMP, t_c])
+
         t_c = t_c + FIRST_PULSE_DURATION
         out_arr.append([FIRST_PULSE_AMP, t_c])
+
+        t_c = t_c + TRANSITION_TIME
+        out_arr.append([-1*FIRST_PULSE_AMP, t_c])
+
+        t_c = t_c + FIRST_PULSE_DURATION
+        out_arr.append([-1*FIRST_PULSE_AMP, t_c])
+
         t_c = t_c + TRANSITION_TIME
         out_arr.append([0, t_c])
+
         t_c = t_c + OFF_TIME
         out_arr.append([0, t_c])
+
     else:
         # implement "step" domain?
         pass
@@ -31,6 +47,9 @@ def pre_pulse(time_domain = True):
     
 
 def genWave():
+
+    '''
+    Generates the "step-domain" waveform that corresponds to the AGD parameters.'''
 
     q_t = int(Q_T * random.uniform(1.0 - VAR_PERCENTAGE, 1 + VAR_PERCENTAGE))
     q_gd = q_t * (Q_GD/Q_T)
@@ -63,6 +82,10 @@ def genWave():
     return out_arr
 
 def to_time_domain(arr, plot = False):
+    '''
+    Converts the "step-domain" waveform to a time-domain waveform that the sim can use.
+    '''
+
     a_t, t_t = zip(*arr)
    
     a_t = [currentFromPMOS(a_t[a_n]) for a_n in range(len(a_t))]
@@ -105,6 +128,9 @@ def append_suffix(array, suffix):
 def writeForLTspice(arr, name,plot = False, write = True, writeToDPT = False, out_d = OUT_DIR):
     # Input time-domain list
 
+    '''
+    Top-level function that generates and writes the waveforms to fileLocation.
+    '''
     x, y = zip(*arr)
     y = [y[x] + pre_pulse()[-1][1] for x in range(len(y))]
     arr = list(zip(x, y))
@@ -154,10 +180,10 @@ def plotA(arr, label: str = None,fig_ax=None):
 
     return fig_ax
 
-
-
 def generateAndWriteWaves(numberOfWaves, fileLocation, writeToDPT=False, plot = True):
-   
+    '''
+    Generates and writes the waveforms to the fileLocation, along with their AGD parameters.
+    '''
     fig, ax = plt.subplots();
     df = pd.DataFrame(columns=["A1", "T1", "A2", "T2", "A3", "T3", "amp", "time"])
 
@@ -190,6 +216,19 @@ def generateAndWriteWaves(numberOfWaves, fileLocation, writeToDPT=False, plot = 
 
     
 def applyWaveformsToDPT(path):
+
+    '''
+    Applies from path to the waveforms to the DPT directory.
+    '''
+
     clearDPTFiles()
     copy_files(path, DPT_OUT_DIR)
     print("Applied waveforms to DPT directory")
+
+    return 1
+
+
+def charge_of_pulse():
+    print(str(FIRST_PULSE_DURATION) + "ns", str(FIRST_PULSE_AMP) + "A", FIRST_PULSE_DURATION * FIRST_PULSE_AMP, "C")
+  
+    return FIRST_PULSE_DURATION * FIRST_PULSE_AMP

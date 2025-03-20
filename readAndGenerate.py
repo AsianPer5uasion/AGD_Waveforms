@@ -8,7 +8,9 @@ import re
 
 from functions import *
 
-
+'''
+How the reading and generation was done initially. Currently no longer relevant.
+'''
 
 
 #out_directory = "files/"

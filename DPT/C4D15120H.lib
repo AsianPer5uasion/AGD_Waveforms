@@ -1,0 +1,23 @@
+* SPICE Model for Wolfspeed C4D15120H SiC Schottky Diode
+* Based on Datasheet Parameters and User's Calculated RS
+.model D_C4D15120H D (IS=1e-9 N=1.1 BV=1200 IBV=1e-6
++ RS=0.0325 CJO=1.2n VJ=0.7 M=0.33 FC=0.5 
++ TT=0)
+
+* Breakdown Voltage
+BV  1  2  D_C4D15120H
+
+* Forward Conduction
+* VF ~ 1.8V @ IF = 15A, RS included in model
+
+* Reverse Leakage Current
+* IR assumed ~ 35 µA @ VR = 1200V, Tj=25°C
+
+* Junction Capacitance as a Function of Reverse Voltage
+* Capacitance Data: 1200 pF (0V), 70 pF (400V), 50 pF (800V)
+Cj  1  2  0
+* Vj  1  2  VALUE = { IF(V(1,2) < 0, 70p, IF(V(1,2) < 400, 70p, 70p)) }
+Vj  1  2  VALUE = { IF(V(1,2) < 0, 1200p, IF(V(1,2) < 400, 70p, 50p)) }
+
+* Thermal Resistance Junction-to-Case (Optional)
+Rth_JC  3  0  0.86

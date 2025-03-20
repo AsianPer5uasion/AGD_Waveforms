@@ -97,7 +97,7 @@ def extract_measurement_data(file_path, measurement_name):
     # Attempt to convert all columns to numeric types when possible.
     for col in df.columns:
         df[col] = pd.to_numeric(df[col], errors='ignore')
-    return df
+    return df.iloc[:, 1].tolist()
 
 
 def delete_integer_named_files(directory):

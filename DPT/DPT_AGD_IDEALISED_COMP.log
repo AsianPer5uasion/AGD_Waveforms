@@ -1,0 +1,186 @@
+Questionable use of curly braces in "vj 1 2 value = {if(v(1,2)<0,1200p,if(v(1,2)<400,70p,50p))}"
+    Error: undefined symbol in: "if([v](1,2)<0,1200p,if(v(1,2)<400,70p,50p))"
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\bowbo\OneDrive\Documents\Tom\Uni Year 4\Group\DataGen\DPT\DPT_AGD_IDEALISED_COMP.asc
+Start Time: Thu Mar 20 16:48:43 2025
+solver = Normal
+Maximum thread count: 8
+
+
+
+WARNING: Node N008 is floating.
+
+WARNING: Less than two connections to node nc_01.  This node is used by total_loss.
+WARNING: Less than two connections to node nc_02.  This node is used by power.
+.OP point found by inspection.
+.step x=0
+
+
+
+.step x=1
+
+
+
+.step x=2
+
+
+
+.step x=3
+
+
+
+.step x=4
+
+
+
+.step x=5
+
+
+
+.step x=6
+
+
+
+.step x=7
+
+
+
+.step x=8
+tnom = 27
+temp = 25
+method = modified trap
+.step x=9
+
+
+Measurement: i_max
+  step	i(r_d)	at
+     1	17.8845	0.000180406
+     2	10.3084	0.000180478
+     3	14.1235	0.000180421
+     4	12.3622	0.000180436
+     5	18.3887	0.0001804
+     6	25.0855	0.000180398
+     7	26.725	0.000180397
+     8	10.3084	0.000180478
+     9	15.8734	0.000180414
+    10	25.0915	0.000180398
+
+Measurement: switching_energy_loss
+  step	total_loss - pre_pulse_loss
+     1	60.9556
+     2	127.104
+     3	83.2852
+     4	85.3759
+     5	57.6501
+     6	59.7341
+     7	55.7227
+     8	128.281
+     9	67.3177
+    10	53.8176
+
+Measurement: current_reached
+  step	MAX(i(r_d))	FROM	TO
+     1	8.28669	0.00018013	0.00018026
+     2	8.28669	0.00018013	0.00018026
+     3	8.28669	0.00018013	0.00018026
+     4	8.28669	0.00018013	0.00018026
+     5	8.28669	0.00018013	0.00018026
+     6	8.28669	0.00018013	0.00018026
+     7	8.28669	0.00018013	0.00018026
+     8	8.28669	0.00018013	0.00018026
+     9	8.28669	0.00018013	0.00018026
+    10	8.28669	0.00018013	0.00018026
+
+Measurement: perovershoot
+  step	(i_max/current_reached)*100
+     1	215.823
+     2	124.397
+     3	170.436
+     4	149.181
+     5	221.907
+     6	302.72
+     7	322.505
+     8	124.397
+     9	191.553
+    10	302.793
+
+Measurement: overshoot
+  step	i_max - current_reached
+     1	9.59785
+     2	2.02169
+     3	5.83681
+     4	4.0755
+     5	10.102
+     6	16.7988
+     7	18.4383
+     8	2.02169
+     9	7.58669
+    10	16.8048
+
+Measurement: writedata
+  step	writedata	FROM	TO
+     1	0.000181	0	0.000181
+     2	0.000181	0	0.000181
+     3	0.000181	0	0.000181
+     4	0.000181	0	0.000181
+     5	0.000181	0	0.000181
+     6	0.000181	0	0.000181
+     7	0.000181	0	0.000181
+     8	0.000181	0	0.000181
+     9	0.000181	0	0.000181
+    10	0.000181	0	0.000181
+
+Measurement: max_p
+  step	MAX(v(nc_02))	FROM	TO
+     1	6716.08	0	0.000181
+     2	3922.81	0	0.000181
+     3	5152.78	0	0.000181
+     4	4560.31	0	0.000181
+     5	6573.05	0	0.000181
+     6	9217.03	0	0.000181
+     7	9441.05	0	0.000181
+     8	3922.81	0	0.000181
+     9	5591.42	0	0.000181
+    10	9218.7	0	0.000181
+
+Measurement: max_p_t
+  step	v(nc_02)=0.99*max_p
+     1	0.000180406
+     2	0.000180478
+     3	0.000180421
+     4	0.000180436
+     5	0.0001804
+     6	0.000180398
+     7	0.000180397
+     8	0.000180478
+     9	0.000180414
+    10	0.000180398
+
+Measurement: pre_pulse_loss
+  step	v(nc_01)	at
+     1	32.4278	0.00018026
+     2	32.4278	0.00018026
+     3	32.4278	0.00018026
+     4	32.4278	0.00018026
+     5	32.4278	0.00018026
+     6	32.4278	0.00018026
+     7	32.4278	0.00018026
+     8	32.4278	0.00018026
+     9	32.4278	0.00018026
+    10	32.4278	0.00018026
+
+Measurement: total_loss
+  step	v(nc_01)	at
+     1	93.3834	0.000181
+     2	159.531	0.000181
+     3	115.713	0.000181
+     4	117.804	0.000181
+     5	90.0779	0.000181
+     6	92.1619	0.000181
+     7	88.1505	0.000181
+     8	160.709	0.000181
+     9	99.7455	0.000181
+    10	86.2454	0.000181
+
+Total elapsed time: 1.902 seconds.
+

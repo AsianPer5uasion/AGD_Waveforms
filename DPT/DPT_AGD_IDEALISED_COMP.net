@@ -1,0 +1,77 @@
+* C:\Users\bowbo\OneDrive\Documents\Tom\Uni Year 4\Group\DataGen\DPT\DPT_AGD_IDEALISED_COMP.asc
+L§I_Load V_L V_X {Load_Inductance}
+XG2 V_D N008 0 TK31Z60X_G2_10
+R_D V_X V_D {Drain_Res}
+S1 V_L N004 N004 0 MYSW
+V_supply N004 0 PULSE({c_v_initial} {c_v_on} {c_T_delay} {c_T_rise} {c_T_fall} {c_T_on} {c_T_period} {c_N_cycles})
+B§Total_Loss NC_01 0 V=idt(I(R_D)*V(V_D))*1000000
+B§Power NC_02 0 V=I(R_D)*V(V_D)
+C_B_1 N001 N005 {C_B_C}
+L§C_B_L1 V_L N001 {C_B_ESL}
+R1 N005 0 {C_B_ESR}
+C_B_2 N002 N006 {C_B_C}
+L§C_B_L2 V_L N002 {C_B_ESL}
+R2 N006 0 {C_B_ESR}
+C_B_3 N003 N007 {C_B_C}
+L§C_B_L3 V_L N003 {C_B_ESL}
+R3 N007 0 {C_B_ESR}
+I1 0 N008 PWL file={x}
+D1 V_X V_L D_C4D15120H
+C1 V_L 0 0.015µF
+C2 V_L 0 0.015µF
+.model D D
+.lib C:\Users\bowbo\AppData\Local\LTspice\lib\cmp\standard.dio
+.lib "TK31Z60X_G2_10_enc.lib"
+.model MYSW SW(Ron=1 Roff=1Meg Vt=0 Vh=-.0004)
+.tran {total_sim_time}
+* Charge Pulse
+* Imports and Model Definitions
+.param Operating_Voltage=400
+.param Driving_Cap=20u
+.param Load_Inductance=10u
+.param c_v_initial=0
+.param c_v_on={Operating_Voltage}
+.param c_T_delay=0
+.param c_T_rise = 0.1us
+.param c_T_fall=0.1us
+.param c_T_on =180us
+.param c_T_period = 1
+.param c_N_cycles=10u
+.TEMP 25
+* Functions
+* Parasitics
+.param Freewheeling_Res = 0.1
+.param Drain_Res=0.01
+.param C_ESR=0.01u
+.param C_GD = 0.1p
+.param C_GS=0.01p
+.param C_DS = 0.1p
+.param C_ESL = 0.11p
+.param L_D = 0.10n
+.param L_S = 0.11p
+.param L_G=0.1p
+* Critical Parameters
+.lib "C4D15120H.lib"
+* Component Values
+.param C_B_ESL=0.1n
+.param C_B_ESR = 5.5m
+.param C_B_C=15uF
+.meas TRAN I_max FIND I(R_D) AT max_p_t
+* Measurements and Timings
+.meas TRAN Switching_Energy_Loss PARAM total_loss - pre_pulse_loss
+.meas TRAN current_reached MAX I(R_D) FROM c_T_on + transition_t +first_pulse_t TO c_T_on + (2*transition_t) + (2*first_pulse_t)
+.meas TRAN PerOvershoot PARAM (I_max/current_reached)*100
+.meas TRAN Overshoot PARAM I_max - current_reached
+.step param x 0 9 1
+.meas TRAN WriteData WRITE Switching_Energy_Loss Overshoot
+* These timings need to correspond to the parameters set in the wave generation config file.
+.param transition_t = 0.1ns
+.param first_pulse_t = 130ns
+.param off_time = 130ns
+.param total_sim_time=c_T_on + 1us
+.meas tran max_p MAX V(nc_02)
+.meas TRAN max_p_t when V(nc_02)=0.99*max_P
+.meas pre_pulse_loss FIND V(nc_01) AT c_T_on + (3*transition_t) + (2*first_pulse_t)
+.meas TRAN total_loss FIND V(nc_01) AT total_sim_time
+.backanno
+.end
